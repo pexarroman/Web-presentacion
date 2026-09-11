@@ -1,0 +1,595 @@
+<!DOCTYPE html>
+<html lang="es" class="scroll-smooth">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title id="page-title">Vídeos — Clínica de Fisioterapia</title>
+<meta id="meta-description" name="description" content="Vídeos cortos mostrando cómo trabajamos.">
+
+<!-- Tailwind CSS -->
+<script src="https://cdn.jsdelivr.net/npm/@tailwindcss/browser@4"></script>
+
+<!-- Lucide Icons -->
+<script src="https://unpkg.com/lucide@latest/dist/umd/lucide.js"></script>
+
+<!-- Google Fonts -->
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Poppins:wght@500;600;700;800&family=Inter:wght@400;500;600&display=swap" rel="stylesheet">
+
+<!-- ============================================================ -->
+<!-- DATOS DEL CLIENTE: nombre, contacto, colores, textos, etc.    -->
+<!-- Todo lo específico de cada clínica vive en config.js, NO aquí -->
+<!-- Esta página comparte el mismo config.js que index.html.       -->
+<!-- ============================================================ -->
+<script src="config.js"></script>
+
+<style>
+  :root{
+    --color-primary: #0ea5e9;
+    --color-primary-dark: #0284c7;
+    --color-secondary: #334155;
+  }
+  body{ font-family:'Inter', sans-serif; }
+  h1,h2,h3,h4,.font-heading{ font-family:'Poppins', sans-serif; }
+  .text-primary{ color: var(--color-primary); }
+  .bg-primary{ background-color: var(--color-primary); }
+  .bg-primary-dark{ background-color: var(--color-primary-dark); }
+  .border-primary{ border-color: var(--color-primary); }
+  .hover\:bg-primary-dark:hover{ background-color: var(--color-primary-dark); }
+  .bg-secondary{ background-color: var(--color-secondary); }
+  .text-secondary{ color: var(--color-secondary); }
+  #mobile-menu{ transition: max-height .3s ease, opacity .25s ease; }
+  .modal-overlay{ backdrop-filter: blur(3px); }
+  ::-webkit-scrollbar{ width:10px; }
+  ::-webkit-scrollbar-track{ background:#f1f5f9; }
+  ::-webkit-scrollbar-thumb{ background:#cbd5e1; border-radius:8px; }
+
+  /* ---------- Aparición suave al hacer scroll (usa IntersectionObserver, ver <script> al final) ---------- */
+  .reveal{
+    opacity: 0;
+    transform: translateY(22px);
+    transition: opacity .6s ease, transform .6s ease;
+  }
+  .reveal.is-visible{
+    opacity: 1;
+    transform: translateY(0);
+  }
+  @media (prefers-reduced-motion: reduce){
+    .reveal{ opacity: 1; transform: none; transition: none; }
+  }
+</style>
+</head>
+
+<body class="bg-white text-slate-700 antialiased">
+
+<!-- ============ NAVBAR (idéntica a index.html; los enlaces de sección apuntan de vuelta a index.html) ============ -->
+<header id="navbar" class="fixed top-0 inset-x-0 z-40 bg-white/90 backdrop-blur-md border-b border-slate-100 transition-shadow">
+  <nav class="max-w-7xl mx-auto px-5 sm:px-8 h-18 py-3 flex items-center justify-between">
+    <a href="index.html" class="flex items-center gap-2.5 font-heading font-bold text-xl text-secondary">
+      <span class="flex items-center justify-center w-10 h-10 rounded-xl bg-primary/10 text-primary overflow-hidden">
+        <img id="brand-logo-header" src="" alt="" class="hidden w-full h-full object-contain p-1">
+        <i id="brand-icon-header" data-lucide="heart-pulse" class="w-6 h-6"></i>
+      </span>
+      <span id="brand-name-header"></span>
+    </a>
+
+    <div class="hidden md:flex items-center gap-8 text-sm font-medium text-slate-600">
+      <a href="index.html#servicios" class="hover:text-primary transition-colors">Servicios</a>
+      <a href="index.html#profesional" class="hover:text-primary transition-colors">Personal</a>
+      <a href="index.html#planes" class="hover:text-primary transition-colors">Planes</a>
+      <a href="videos.html" class="text-primary font-semibold">Vídeos</a>
+    </div>
+
+    <div class="flex items-center gap-3">
+      <a id="phone-link-header" href="tel:" class="hidden sm:inline-flex items-center gap-2 text-sm font-semibold text-secondary hover:text-primary transition-colors">
+        <i data-lucide="phone" class="w-4 h-4"></i> <span id="phone-text-header"></span>
+      </a>
+      <a id="whatsapp-header" href="#" target="_blank" rel="noopener"
+         class="inline-flex items-center gap-2 bg-primary hover:bg-primary-dark text-white text-sm font-semibold px-4 py-2.5 rounded-full shadow-sm shadow-sky-200 transition-colors">
+        <i data-lucide="calendar-check" class="w-4 h-4"></i>
+        <span class="hidden sm:inline">Reservar Cita</span>
+        <span class="sm:hidden">Reservar</span>
+      </a>
+      <button id="menu-btn" aria-label="Abrir menú" class="md:hidden flex items-center justify-center w-10 h-10 rounded-lg text-secondary hover:bg-slate-100">
+        <i data-lucide="menu" class="w-6 h-6"></i>
+      </button>
+    </div>
+  </nav>
+
+  <!-- Mobile menu -->
+  <div id="mobile-menu" class="md:hidden max-h-0 overflow-hidden opacity-0 bg-white border-t border-slate-100">
+    <div class="flex flex-col px-6 py-4 gap-1 text-slate-600 font-medium">
+      <a href="index.html#servicios" class="py-2.5 border-b border-slate-50">Servicios</a>
+      <a href="index.html#profesional" class="py-2.5 border-b border-slate-50">Personal</a>
+      <a href="index.html#planes" class="py-2.5 border-b border-slate-50">Planes</a>
+      <a href="videos.html" class="py-2.5 text-primary font-semibold">Vídeos</a>
+    </div>
+  </div>
+</header>
+
+<main class="pt-18">
+
+<!-- ============ CABECERA DE LA PÁGINA DE VÍDEOS ============ -->
+<section class="py-16 md:py-20 bg-slate-50">
+  <div class="reveal max-w-3xl mx-auto px-5 sm:px-8 text-center">
+    <span id="videos-eyebrow" class="text-primary font-semibold text-sm uppercase tracking-wider"></span>
+    <h1 id="videos-heading" class="font-heading text-3xl sm:text-4xl font-bold text-secondary mt-3 mb-4"></h1>
+    <p id="videos-description" class="text-slate-500"></p>
+  </div>
+</section>
+
+<!-- ============ VÍDEOS EN ZIGZAG (generados desde config.js: CFG.videos) ============ -->
+<section class="py-16 md:py-24 bg-white">
+  <div id="videos-list" class="max-w-6xl mx-auto px-5 sm:px-8 space-y-16 md:space-y-24">
+    <!-- Bloques generados dinámicamente: vídeo 1 y 3 con el vídeo a la izquierda,
+         vídeo 2 al revés (texto a la izquierda). Ver applyVideosPage() más abajo. -->
+  </div>
+</section>
+
+<!-- ============ CTA final: volver a reservar ============ -->
+<section class="py-16 md:py-20 bg-secondary text-center">
+  <div class="reveal max-w-2xl mx-auto px-5 sm:px-8">
+    <h2 class="font-heading text-2xl sm:text-3xl font-bold text-white mb-4">¿Te animas a probarlo?</h2>
+    <a id="whatsapp-videos-cta" href="#" target="_blank" rel="noopener"
+       class="inline-flex items-center gap-2 bg-primary hover:bg-primary-dark text-white font-semibold px-7 py-3.5 rounded-full transition-colors">
+      <i data-lucide="calendar-check" class="w-5 h-5"></i> Reservar cita
+    </a>
+  </div>
+</section>
+
+</main>
+
+<!-- ============ FOOTER (idéntico a index.html) ============ -->
+<footer class="bg-slate-950 text-slate-400 py-14">
+  <div class="max-w-7xl mx-auto px-5 sm:px-8">
+    <div class="grid sm:grid-cols-2 md:grid-cols-4 gap-10 pb-10 border-b border-white/10">
+      <div class="md:col-span-2">
+        <a href="index.html" class="flex items-center gap-2.5 font-heading font-bold text-lg text-white mb-4">
+          <span class="flex items-center justify-center w-9 h-9 rounded-lg bg-primary/20 text-sky-400 overflow-hidden">
+            <img id="brand-logo-footer" src="" alt="" class="hidden w-full h-full object-contain p-1">
+            <i id="brand-icon-footer" data-lucide="heart-pulse" class="w-5 h-5"></i>
+          </span>
+          <span id="brand-name-footer"></span>
+        </a>
+        <p id="footer-description" class="text-sm max-w-sm"></p>
+        <div class="flex items-center gap-3 mt-5">
+          <a id="instagram-footer" href="#" target="_blank" rel="noopener" aria-label="Instagram"
+             class="hidden items-center justify-center w-10 h-10 rounded-full bg-white/10 hover:bg-primary text-slate-300 hover:text-white transition-colors">
+            <i data-lucide="instagram" class="w-5 h-5"></i>
+          </a>
+        </div>
+      </div>
+      <div>
+        <p class="text-white font-semibold text-sm mb-4">Navegación</p>
+        <ul class="space-y-2.5 text-sm">
+          <li><a href="index.html#servicios" class="hover:text-white transition-colors">Servicios</a></li>
+          <li><a href="index.html#nosotros" class="hover:text-white transition-colors">Por qué elegirnos</a></li>
+          <li><a href="index.html#profesional" class="hover:text-white transition-colors">El profesional</a></li>
+          <li><a href="index.html#planes" class="hover:text-white transition-colors">Planes</a></li>
+          <li><a href="videos.html" class="hover:text-white transition-colors">Vídeos</a></li>
+          <li><a href="index.html#testimonios" class="hover:text-white transition-colors">Opiniones</a></li>
+          <li><a href="index.html#contacto" class="hover:text-white transition-colors">Contacto</a></li>
+        </ul>
+      </div>
+      <div>
+        <p class="text-white font-semibold text-sm mb-4">Legal</p>
+        <ul class="space-y-2.5 text-sm">
+          <li><button data-modal="modal-aviso-legal" class="hover:text-white transition-colors text-left">Aviso Legal</button></li>
+          <li><button data-modal="modal-privacidad" class="hover:text-white transition-colors text-left">Política de Privacidad</button></li>
+          <li><button data-modal="modal-cookies" class="hover:text-white transition-colors text-left">Política de Cookies</button></li>
+        </ul>
+      </div>
+    </div>
+    <div class="pt-8 flex flex-col sm:flex-row justify-between items-center gap-3 text-xs">
+      <p>&copy; <span id="year"></span> <span id="footer-copyright-name"></span>. Todos los derechos reservados.</p>
+      <p id="footer-nif"></p>
+    </div>
+  </div>
+</footer>
+
+<!-- ============ BANNER DE COOKIES ============ -->
+<div id="cookie-banner" class="fixed inset-x-0 bottom-0 z-50 hidden">
+  <div class="max-w-5xl mx-auto m-4 bg-white border border-slate-200 rounded-2xl shadow-2xl p-5 sm:p-6 flex flex-col sm:flex-row items-start sm:items-center gap-4">
+    <i data-lucide="cookie" class="w-8 h-8 text-primary flex-shrink-0"></i>
+    <p class="text-sm text-slate-600 flex-1">
+      Utilizamos cookies propias y de terceros para mejorar tu experiencia de navegación y analizar el uso de la web.
+      Puedes aceptarlas, rechazarlas o consultar más información en nuestra
+      <button data-modal="modal-cookies" class="text-primary font-semibold underline underline-offset-2">Política de Cookies</button>.
+    </p>
+    <div class="flex gap-3 flex-shrink-0 w-full sm:w-auto">
+      <button id="cookie-reject" class="flex-1 sm:flex-none px-5 py-2.5 rounded-full border border-slate-200 text-slate-600 text-sm font-semibold hover:bg-slate-50 transition-colors">Rechazar</button>
+      <button id="cookie-accept" class="flex-1 sm:flex-none px-5 py-2.5 rounded-full bg-primary hover:bg-primary-dark text-white text-sm font-semibold transition-colors">Aceptar</button>
+    </div>
+  </div>
+</div>
+
+<!-- ============ MODALES LEGALES (idénticos a index.html) ============ -->
+<!-- El contenido de cada modal se genera dinámicamente a partir de config.js -->
+
+<!-- Aviso Legal -->
+<div id="modal-aviso-legal" class="legal-modal fixed inset-0 z-[60] hidden items-center justify-center p-4">
+  <div class="modal-overlay absolute inset-0 bg-slate-900/60" data-close-modal></div>
+  <div class="relative bg-white w-full max-w-2xl max-h-[85vh] rounded-2xl shadow-2xl flex flex-col">
+    <div class="flex items-center justify-between px-6 py-5 border-b border-slate-100">
+      <h3 class="font-heading font-bold text-xl text-secondary">Aviso Legal</h3>
+      <button data-close-modal class="flex items-center justify-center w-10 h-10 rounded-full bg-slate-100 hover:bg-slate-200 text-secondary transition-colors" aria-label="Cerrar">
+        <i data-lucide="x" class="w-5 h-5"></i>
+      </button>
+    </div>
+    <div id="modal-aviso-legal-body" class="px-6 py-5 overflow-y-auto text-sm text-slate-600 leading-relaxed space-y-4"></div>
+  </div>
+</div>
+
+<!-- Política de Privacidad -->
+<div id="modal-privacidad" class="legal-modal fixed inset-0 z-[60] hidden items-center justify-center p-4">
+  <div class="modal-overlay absolute inset-0 bg-slate-900/60" data-close-modal></div>
+  <div class="relative bg-white w-full max-w-2xl max-h-[85vh] rounded-2xl shadow-2xl flex flex-col">
+    <div class="flex items-center justify-between px-6 py-5 border-b border-slate-100">
+      <h3 class="font-heading font-bold text-xl text-secondary">Política de Privacidad</h3>
+      <button data-close-modal class="flex items-center justify-center w-10 h-10 rounded-full bg-slate-100 hover:bg-slate-200 text-secondary transition-colors" aria-label="Cerrar">
+        <i data-lucide="x" class="w-5 h-5"></i>
+      </button>
+    </div>
+    <div id="modal-privacidad-body" class="px-6 py-5 overflow-y-auto text-sm text-slate-600 leading-relaxed space-y-4"></div>
+  </div>
+</div>
+
+<!-- Política de Cookies -->
+<div id="modal-cookies" class="legal-modal fixed inset-0 z-[60] hidden items-center justify-center p-4">
+  <div class="modal-overlay absolute inset-0 bg-slate-900/60" data-close-modal></div>
+  <div class="relative bg-white w-full max-w-2xl max-h-[85vh] rounded-2xl shadow-2xl flex flex-col">
+    <div class="flex items-center justify-between px-6 py-5 border-b border-slate-100">
+      <h3 class="font-heading font-bold text-xl text-secondary">Política de Cookies</h3>
+      <button data-close-modal class="flex items-center justify-center w-10 h-10 rounded-full bg-slate-100 hover:bg-slate-200 text-secondary transition-colors" aria-label="Cerrar">
+        <i data-lucide="x" class="w-5 h-5"></i>
+      </button>
+    </div>
+    <div id="modal-cookies-body" class="px-6 py-5 overflow-y-auto text-sm text-slate-600 leading-relaxed space-y-4"></div>
+  </div>
+</div>
+
+<!-- Reservar cita (Cal.com) -->
+<div id="modal-reservar" class="legal-modal fixed inset-0 z-[60] hidden items-center justify-center p-4">
+  <div class="modal-overlay absolute inset-0 bg-slate-900/60" data-close-modal></div>
+  <div class="relative bg-white w-full max-w-3xl max-h-[85vh] rounded-2xl shadow-2xl flex flex-col">
+    <div class="flex items-center justify-between px-6 py-5 border-b border-slate-100">
+      <h3 class="font-heading font-bold text-xl text-secondary">Reserva tu cita</h3>
+      <button data-close-modal class="flex items-center justify-center w-10 h-10 rounded-full bg-slate-100 hover:bg-slate-200 text-secondary transition-colors" aria-label="Cerrar">
+        <i data-lucide="x" class="w-5 h-5"></i>
+      </button>
+    </div>
+    <div id="cal-booking-container" class="overflow-y-auto flex-1" style="min-height:500px;"></div>
+  </div>
+</div>
+
+<script>
+  var CFG = window.SITE_CONFIG || {};
+  if (!window.SITE_CONFIG) {
+    console.error('No se ha encontrado config.js (window.SITE_CONFIG). Asegúrate de que el archivo config.js está en la misma carpeta que videos.html y que se carga antes de este script.');
+  }
+
+  /* ---------- Helpers ---------- */
+  var $ = function(id){ return document.getElementById(id); };
+  var setText = function(id, value){ var el = $(id); if (el && value != null) el.textContent = value; };
+  var setHTML = function(id, value){ var el = $(id); if (el && value != null) el.innerHTML = value; };
+  var get = function(obj, path, fallback){
+    var parts = path.split('.');
+    var cur = obj;
+    for (var i = 0; i < parts.length; i++){
+      if (cur == null) return fallback;
+      cur = cur[parts[i]];
+    }
+    return (cur == null) ? fallback : cur;
+  };
+
+  /* ---------- Aplicar colores de marca ---------- */
+  (function applyColors(){
+    var root = document.documentElement.style;
+    var primary = get(CFG, 'colors.primary');
+    var primaryDark = get(CFG, 'colors.primaryDark');
+    var secondary = get(CFG, 'colors.secondary');
+    if (primary) root.setProperty('--color-primary', primary);
+    if (primaryDark) root.setProperty('--color-primary-dark', primaryDark);
+    if (secondary) root.setProperty('--color-secondary', secondary);
+  })();
+
+  var waNumber  = get(CFG, 'contact.whatsappNumber', '');
+  var waMessage = encodeURIComponent(get(CFG, 'contact.whatsappMessage', ''));
+  var waHref    = 'https://wa.me/' + waNumber + '?text=' + waMessage;
+  var telHref   = 'tel:' + get(CFG, 'contact.phoneHref', '');
+  var calLink   = get(CFG, 'booking.calLink', '');
+  var calEmbedReady = false;
+
+  /* ---------- Reservas: Cal.com dentro de NUESTRO modal ---------- */
+  function ensureCalEmbed(){
+    if (!calLink || calEmbedReady) return;
+    calEmbedReady = true;
+    (function (C, A, L) { let p = function (a, ar) { a.q.push(ar); }; let d = C.document; C.Cal = C.Cal || function () { let cal = C.Cal; let ar = arguments; if (!cal.loaded) { cal.ns = {}; cal.q = cal.q || []; d.head.appendChild(d.createElement('script')).src = A; cal.loaded = true; } if (ar[0] === L) { const api = function () { p(api, arguments); }; const namespace = ar[1]; api.q = api.q || []; if (typeof namespace === 'string') { cal.ns[namespace] = cal.ns[namespace] || api; p(cal.ns[namespace], ar); p(cal, ['initNamespace', namespace]); } else p(cal, ar); return; } p(cal, ar); }; })(window, 'https://app.cal.com/embed/embed.js', 'init');
+
+    Cal('init', { origin: 'https://cal.com' });
+    Cal('inline', {
+      elementOrSelector: '#cal-booking-container',
+      calLink: calLink,
+      layout: 'month_view'
+    });
+    Cal('ui', {
+      styles: { branding: { brandColor: getComputedStyle(document.documentElement).getPropertyValue('--color-primary').trim() } },
+      hideEventTypeDetails: false
+    });
+  }
+
+  function openBookingModal(e){
+    if (!calLink) return;
+    e.preventDefault();
+    openModal('modal-reservar');
+    ensureCalEmbed();
+  }
+
+  /* ---------- Marca (nombre + logo/icono) ---------- */
+  (function applyBrand(){
+    var namePart1 = get(CFG, 'brand.namePart1', '');
+    var namePart2 = get(CFG, 'brand.namePart2', '');
+    var icon = get(CFG, 'brand.icon');
+    setHTML('brand-name-header', namePart1 + '<span class="text-primary">' + namePart2 + '</span>');
+    setHTML('brand-name-footer', namePart1 + '<span class="text-sky-400">' + namePart2 + '</span>');
+    var iconHeader = $('brand-icon-header');
+    var iconFooter = $('brand-icon-footer');
+    if (iconHeader && icon) iconHeader.setAttribute('data-lucide', icon);
+    if (iconFooter && icon) iconFooter.setAttribute('data-lucide', icon);
+
+    var logoSrc = get(CFG, 'images.logo', '');
+    function setupLogo(imgId, iconEl){
+      var img = $(imgId);
+      if (!img || !logoSrc) return;
+      img.addEventListener('load', function(){
+        img.classList.remove('hidden');
+        if (iconEl) iconEl.classList.add('hidden');
+      });
+      img.addEventListener('error', function(){
+        img.classList.add('hidden');
+        if (iconEl) iconEl.classList.remove('hidden');
+      });
+      img.setAttribute('alt', get(CFG, 'legal.tradeName', '') + ' logo');
+      img.setAttribute('src', logoSrc);
+    }
+    setupLogo('brand-logo-header', iconHeader);
+    setupLogo('brand-logo-footer', iconFooter);
+  })();
+
+  /* ---------- Header ---------- */
+  (function applyHeader(){
+    var phoneHeader = $('phone-link-header');
+    if (phoneHeader) phoneHeader.setAttribute('href', telHref);
+    setText('phone-text-header', get(CFG, 'contact.phoneDisplay'));
+    var waHeader = $('whatsapp-header');
+    if (waHeader) {
+      waHeader.setAttribute('href', waHref);
+      waHeader.addEventListener('click', openBookingModal);
+    }
+  })();
+
+  /* ---------- Página de vídeos ---------- */
+  (function applyVideosPage(){
+    setText('videos-eyebrow', get(CFG, 'videosSection.eyebrow'));
+    setText('videos-heading', get(CFG, 'videosSection.heading'));
+    setText('videos-description', get(CFG, 'videosSection.description'));
+
+    var list = $('videos-list');
+    var items = CFG.videos;
+    if (list && Array.isArray(items)){
+      list.innerHTML = items.map(function(v, i){
+        var reversed = (i % 2 === 1); // el 2º vídeo (índice 1) va al revés; 1º y 3º quedan igual
+        var videoBlock =
+          '<div class="' + (reversed ? 'lg:order-2' : '') + '">' +
+            '<div class="aspect-video w-full rounded-3xl overflow-hidden border border-slate-100 shadow-lg bg-slate-900">' +
+              '<video class="w-full h-full object-cover" controls preload="none" playsinline poster="' + (v.poster || '') + '">' +
+                '<source src="' + (v.video || '') + '" type="video/mp4">' +
+                'Tu navegador no soporta la reproducción de vídeo HTML5.' +
+              '</video>' +
+            '</div>' +
+          '</div>';
+        var textBlock =
+          '<div class="' + (reversed ? 'lg:order-1' : '') + '">' +
+            '<span class="text-primary font-semibold text-sm uppercase tracking-wider">Vídeo ' + (i + 1) + '</span>' +
+            '<h3 class="font-heading text-2xl sm:text-3xl font-bold text-secondary mt-2 mb-4">' + (v.title || '') + '</h3>' +
+            '<p class="text-slate-500 leading-relaxed">' + (v.description || '') + '</p>' +
+          '</div>';
+        return '' +
+        '<div class="reveal grid lg:grid-cols-2 gap-10 items-center">' +
+          videoBlock + textBlock +
+        '</div>';
+      }).join('');
+    }
+
+    var waCta = $('whatsapp-videos-cta');
+    if (waCta) {
+      waCta.setAttribute('href', waHref);
+      waCta.addEventListener('click', openBookingModal);
+    }
+  })();
+
+  /* ---------- Footer ---------- */
+  (function applyFooter(){
+    setText('footer-description', get(CFG, 'footer.description'));
+    var igUrl = get(CFG, 'contact.instagramUrl', '');
+    var igFooter = $('instagram-footer');
+    if (igFooter) {
+      if (igUrl) {
+        igFooter.setAttribute('href', igUrl);
+        igFooter.classList.remove('hidden');
+        igFooter.style.display = 'inline-flex';
+      } else {
+        igFooter.classList.add('hidden');
+      }
+    }
+    setText('footer-copyright-name', get(CFG, 'legal.tradeName', '') + ' — ' + get(CFG, 'legal.legalName', ''));
+    setText('footer-nif', 'NIF/CIF: ' + get(CFG, 'legal.nif', ''));
+  })();
+
+  /* ---------- Modales legales (boilerplate legal + datos de config.js) ---------- */
+  (function applyLegalModals(){
+    var L = CFG.legal || {};
+    var C = CFG.contact || {};
+
+    setHTML('modal-aviso-legal-body',
+      '<p>En cumplimiento del deber de información recogido en el artículo 10 de la Ley 34/2002, de 11 de julio, de Servicios de la Sociedad de la Información y de Comercio Electrónico (LSSI-CE), se facilitan a continuación los siguientes datos:</p>' +
+      '<ul class="list-disc pl-5 space-y-1">' +
+        '<li><strong>Titular:</strong> ' + (L.legalName || '') + ' (nombre comercial "' + (L.tradeName || '') + '")</li>' +
+        '<li><strong>NIF:</strong> ' + (L.nif || '') + '</li>' +
+        '<li><strong>Domicilio:</strong> ' + (C.address || '') + '</li>' +
+        '<li><strong>Email de contacto:</strong> ' + (C.email || '') + '</li>' +
+        '<li><strong>Teléfono:</strong> ' + (C.phoneDisplay || '') + '</li>' +
+      '</ul>' +
+      '<p><strong>Objeto.</strong> El presente sitio web tiene como finalidad informar sobre los servicios de fisioterapia ofrecidos por ' + (L.tradeName || '') + ' y facilitar el contacto y la solicitud de citas por parte de los usuarios.</p>' +
+      '<p><strong>Condiciones de uso.</strong> El acceso y uso de este sitio web atribuye la condición de usuario y supone la aceptación plena de todas las cláusulas incluidas en este Aviso Legal. El usuario se compromete a hacer un uso adecuado y lícito del sitio web, de conformidad con la legislación aplicable, la buena fe y el orden público.</p>' +
+      '<p><strong>Propiedad intelectual e industrial.</strong> Todos los contenidos del sitio web (textos, imágenes, marcas, logotipos, código fuente y demás elementos) son propiedad de ' + (L.tradeName || '') + ' o de terceros que han autorizado su uso, y están protegidos por la normativa de propiedad intelectual e industrial. Queda prohibida su reproducción, distribución o transformación sin autorización expresa del titular.</p>' +
+      '<p><strong>Exclusión de responsabilidad.</strong> ' + (L.tradeName || '') + ' no se hace responsable de los daños y perjuicios que pudieran derivarse de interferencias, interrupciones, virus informáticos o cualquier otra causa ajena a su voluntad. El contenido del sitio web tiene carácter meramente informativo y no sustituye la valoración de un profesional sanitario.</p>' +
+      '<p><strong>Legislación aplicable.</strong> Las presentes condiciones se rigen por la legislación española. Para cualquier controversia derivada del uso de este sitio web, las partes se someten a los Juzgados y Tribunales que correspondan conforme a derecho.</p>'
+    );
+
+    setHTML('modal-privacidad-body',
+      '<p>De conformidad con el Reglamento (UE) 2016/679 (RGPD) y la Ley Orgánica 3/2018 de Protección de Datos Personales y garantía de los derechos digitales (LOPDGDD), se informa de lo siguiente:</p>' +
+      '<p><strong>Responsable del tratamiento.</strong> ' + (L.legalName || '') + ' ("' + (L.tradeName || '') + '"), con NIF ' + (L.nif || '') + ' y domicilio en ' + (C.address || '') + '. Email de contacto: ' + (C.email || '') + '.</p>' +
+      '<p><strong>Finalidad del tratamiento.</strong> Los datos personales facilitados a través de los formularios de contacto, WhatsApp o llamada telefónica se tratan con la finalidad de gestionar solicitudes de información, citas y la relación con el paciente. Los datos de salud, en su caso, se tratan exclusivamente con fines de diagnóstico y tratamiento fisioterapéutico.</p>' +
+      '<p><strong>Legitimación.</strong> El tratamiento se basa en el consentimiento del interesado (art. 6.1.a RGPD) y, en el caso de datos de salud, en el consentimiento explícito (art. 9.2.a RGPD), así como en la ejecución de la relación asistencial (art. 6.1.b RGPD).</p>' +
+      '<p><strong>Conservación.</strong> Los datos se conservarán mientras se mantenga la relación con el paciente y, posteriormente, durante los plazos legalmente exigidos para atender posibles responsabilidades.</p>' +
+      '<p><strong>Destinatarios.</strong> No se cederán datos a terceros salvo obligación legal. Los proveedores que puedan tener acceso a datos (por ejemplo, servicios de hosting o gestión de citas) actúan como encargados del tratamiento conforme al art. 28 RGPD.</p>' +
+      '<p><strong>Derechos.</strong> El interesado puede ejercer sus derechos de acceso, rectificación, supresión, limitación, oposición y portabilidad dirigiéndose por escrito a ' + (C.email || '') + ', adjuntando copia de un documento identificativo. Asimismo, tiene derecho a presentar una reclamación ante la Agencia Española de Protección de Datos (www.aepd.es) si considera que el tratamiento no se ajusta a la normativa vigente.</p>' +
+      '<p><strong>Medidas de seguridad.</strong> ' + (L.tradeName || '') + ' aplica las medidas técnicas y organizativas necesarias para garantizar la seguridad e integridad de los datos personales tratados, así como para evitar su alteración, pérdida o acceso no autorizado.</p>'
+    );
+
+    setHTML('modal-cookies-body',
+      '<p>Este sitio web, titularidad de ' + (L.legalName || '') + ' ("' + (L.tradeName || '') + '", NIF ' + (L.nif || '') + '), utiliza cookies propias y, en su caso, de terceros para mejorar la experiencia de navegación, en cumplimiento del artículo 22.2 de la LSSI-CE y del RGPD.</p>' +
+      '<p><strong>¿Qué es una cookie?</strong> Una cookie es un pequeño archivo de texto que se almacena en el navegador del usuario al visitar una página web, y que permite recordar información sobre su visita.</p>' +
+      '<p><strong>Tipos de cookies utilizadas:</strong></p>' +
+      '<ul class="list-disc pl-5 space-y-1">' +
+        '<li><strong>Cookies técnicas (necesarias):</strong> imprescindibles para el funcionamiento básico de la web, como recordar tu elección sobre esta misma política de cookies.</li>' +
+        '<li><strong>Cookies analíticas (opcionales):</strong> permiten cuantificar el número de visitantes y analizar el uso que hacen de la web, con el fin de mejorar los contenidos ofrecidos.</li>' +
+      '</ul>' +
+      '<p><strong>Gestión de cookies.</strong> Al acceder a esta web se muestra un banner que permite aceptar o rechazar el uso de cookies no esenciales. Puedes cambiar tu decisión en cualquier momento eliminando las cookies almacenadas por este sitio desde la configuración de tu navegador.</p>' +
+      '<p><strong>Desactivación desde el navegador.</strong> Adicionalmente, puedes permitir, bloquear o eliminar las cookies instaladas en tu equipo mediante la configuración de las opciones de tu navegador (Chrome, Firefox, Safari, Edge, etc.).</p>' +
+      '<p>Esta Política de Cookies puede actualizarse en función de exigencias legales o para adaptar dicha política a las instrucciones de la Agencia Española de Protección de Datos.</p>'
+    );
+  })();
+
+  /* ---------- Inicializar iconos de Lucide (después de generar el contenido dinámico) ---------- */
+  lucide.createIcons();
+
+  document.getElementById('year').textContent = new Date().getFullYear();
+
+  /* ---------- Menú móvil ---------- */
+  const menuBtn = document.getElementById('menu-btn');
+  const mobileMenu = document.getElementById('mobile-menu');
+  let menuOpen = false;
+
+  function setMenu(open){
+    menuOpen = open;
+    if(open){
+      mobileMenu.style.maxHeight = mobileMenu.scrollHeight + 'px';
+      mobileMenu.style.opacity = '1';
+      menuBtn.innerHTML = '<i data-lucide="x" class="w-6 h-6"></i>';
+    } else {
+      mobileMenu.style.maxHeight = '0px';
+      mobileMenu.style.opacity = '0';
+      menuBtn.innerHTML = '<i data-lucide="menu" class="w-6 h-6"></i>';
+    }
+    lucide.createIcons();
+  }
+
+  menuBtn.addEventListener('click', () => setMenu(!menuOpen));
+  mobileMenu.querySelectorAll('a').forEach(link => {
+    link.addEventListener('click', () => setMenu(false));
+  });
+
+  /* ---------- Sombra en navbar al hacer scroll ---------- */
+  const navbar = document.getElementById('navbar');
+  window.addEventListener('scroll', () => {
+    if(window.scrollY > 10){
+      navbar.classList.add('shadow-sm');
+    } else {
+      navbar.classList.remove('shadow-sm');
+    }
+  });
+
+  /* ---------- Banner de cookies ---------- */
+  const cookieBanner = document.getElementById('cookie-banner');
+  const cookieAccept = document.getElementById('cookie-accept');
+  const cookieReject = document.getElementById('cookie-reject');
+  const COOKIE_KEY = 'site_cookie_consent';
+
+  function initCookieBanner(){
+    const consent = localStorage.getItem(COOKIE_KEY);
+    if(!consent){
+      cookieBanner.classList.remove('hidden');
+    }
+  }
+
+  function setConsent(value){
+    localStorage.setItem(COOKIE_KEY, value);
+    cookieBanner.classList.add('hidden');
+  }
+
+  cookieAccept.addEventListener('click', () => setConsent('accepted'));
+  cookieReject.addEventListener('click', () => setConsent('rejected'));
+
+  try { initCookieBanner(); } catch(e) { cookieBanner.classList.remove('hidden'); }
+
+  /* ---------- Modales legales ---------- */
+  const modalTriggers = document.querySelectorAll('[data-modal]');
+  const closeButtons = document.querySelectorAll('[data-close-modal]');
+
+  function openModal(id){
+    const modal = document.getElementById(id);
+    if(!modal) return;
+    modal.classList.remove('hidden');
+    modal.classList.add('flex');
+    document.body.classList.add('overflow-hidden');
+  }
+
+  function closeModal(modal){
+    modal.classList.add('hidden');
+    modal.classList.remove('flex');
+    document.body.classList.remove('overflow-hidden');
+  }
+
+  modalTriggers.forEach(btn => {
+    btn.addEventListener('click', () => openModal(btn.getAttribute('data-modal')));
+  });
+
+  closeButtons.forEach(btn => {
+    btn.addEventListener('click', () => closeModal(btn.closest('.legal-modal')));
+  });
+
+  document.addEventListener('keydown', (e) => {
+    if(e.key === 'Escape'){
+      document.querySelectorAll('.legal-modal:not(.hidden)').forEach(closeModal);
+    }
+  });
+
+  /* ---------- Aparición suave al hacer scroll ----------
+     API nativa del navegador (IntersectionObserver), sin librerías externas.
+     Cada elemento con la clase "reveal" empieza invisible (ver <style> en el <head>)
+     y se le añade "is-visible" en cuanto entra en pantalla; a partir de ahí deja de
+     observarse (la animación solo ocurre una vez, no cada vez que se hace scroll). */
+  (function initScrollReveal(){
+    var targets = document.querySelectorAll('.reveal');
+    if (!targets.length) return;
+    if (!('IntersectionObserver' in window)) {
+      targets.forEach(function(el){ el.classList.add('is-visible'); });
+      return;
+    }
+    var observer = new IntersectionObserver(function(entries){
+      entries.forEach(function(entry){
+        if (entry.isIntersecting){
+          entry.target.classList.add('is-visible');
+          observer.unobserve(entry.target);
+        }
+      });
+    }, { threshold: 0.15, rootMargin: '0px 0px -40px 0px' });
+    targets.forEach(function(el){ observer.observe(el); });
+  })();
+</script>
+
+</body>
+</html>
